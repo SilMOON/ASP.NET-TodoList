@@ -1,0 +1,25 @@
+﻿services:
+
+#  todolist:
+#    image: todolist
+#    build:
+#      context: .
+#      dockerfile: TodoList/Dockerfile
+
+  postgres:
+    container_name: 'postgres'
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: password
+#    networks:
+#      - aspnetcoreapp-network
+
+#networks:
+#  aspnetcoreapp-network:
+#    driver: bridge
+
