@@ -1,6 +1,5 @@
 @TodoList_HostAddress = http://localhost:5248
 
-GET {{TodoList_HostAddress}}/weatherforecast/
+GET {{TodoList_HostAddress}}/todoitems/
 Accept: application/json
-
 ###

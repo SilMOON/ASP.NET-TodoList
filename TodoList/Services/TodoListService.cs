@@ -7,7 +7,7 @@ namespace TodoList.Services;
 
 public class TodoListService(AppDbContext context)
 {
-  public async Task<int> AddTodoItem(AddTodoItemCmd cmd, int userId)
+  public async Task<int> AddTodoItem(AddTodoItemCmd cmd, string userId)
   {
     TodoItem todoItem = new TodoItem
     {
@@ -19,14 +19,14 @@ public class TodoListService(AppDbContext context)
     return todoItem.TodoItemId;
   }
 
-  public async Task<ICollection<TodoItem>> ListTodoItems(int userId)
+  public async Task<ICollection<TodoItem>> ListTodoItems(string userId)
   {
     return await context.TodoItems
       .Where(t => t.UserId == userId)
       .ToListAsync();
   }
 
-  public async Task<int> UpdateTodoItem(UpdateTodoItemCmd cmd, int userId)
+  public async Task<int> UpdateTodoItem(UpdateTodoItemCmd cmd, string userId)
   {
     TodoItem todoItem = await context.TodoItems
       .FindAsync(cmd.TodoItemId) ?? throw new Exception("Unable to find the todo item.");
@@ -42,7 +42,7 @@ public class TodoListService(AppDbContext context)
     return todoItem.TodoItemId;
   }
 
-  public async Task DeleteTodoItem(int todoItemId, int userId)
+  public async Task DeleteTodoItem(int todoItemId, string userId)
   {
     TodoItem todoItem = await context.TodoItems
       .FindAsync(todoItemId) ?? throw new Exception("Unable to find the todo item.");
@@ -53,5 +53,7 @@ public class TodoListService(AppDbContext context)
     }
 
     context.Remove(todoItem);
+
+    await context.SaveChangesAsync();
   }
 }
